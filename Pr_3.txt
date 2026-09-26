@@ -1,0 +1,89 @@
+import java.util.*;
+
+class Item {
+    int weight;
+    int profit;
+    double ratio;
+
+    Item(int weight, int profit) {
+        this.weight = weight;
+        this.profit = profit;
+        this.ratio = (double) profit / weight;
+    }
+}
+
+public class MainProgram {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        // Step 1: Read number of items
+        System.out.print("Enter number of items: ");
+        int n = sc.nextInt();
+
+        Item[] items = new Item[n];
+
+        // Step 2: Read profit and weight
+        for (int i = 0; i < n; i++) {
+            System.out.println("Enter profit and weight for item " + (i + 1) + ":");
+
+            int profit = sc.nextInt();
+            int weight = sc.nextInt();
+
+            items[i] = new Item(weight, profit);
+        }
+
+        // Step 3: Read knapsack capacity
+        System.out.print("Enter knapsack capacity: ");
+        int capacity = sc.nextInt();
+
+        // Step 4: Sort items according to profit/weight ratio
+        Arrays.sort(items, (a, b) -> Double.compare(b.ratio, a.ratio));
+
+        double maxProfit = 0;
+
+        // Step 5: Select items greedily
+        for (int i = 0; i < n; i++) {
+
+            if (capacity == 0) {
+                break;
+            }
+
+            // If complete item can be taken
+            if (items[i].weight <= capacity) {
+
+                capacity -= items[i].weight;
+                maxProfit += items[i].profit;
+
+                System.out.println("Taking full item: " +
+                        "Weight = " + items[i].weight +
+                        ", Profit = " + items[i].profit);
+
+            } 
+            // Otherwise take fraction of item
+            else {
+
+                double fraction = (double) capacity / items[i].weight;
+
+                maxProfit += items[i].profit * fraction;
+
+                System.out.println("Taking " +
+                        String.format("%.2f", fraction * 100) +
+                        "% of item: " +
+                        "Weight = " + items[i].weight +
+                        ", Profit = " + items[i].profit);
+
+                capacity = 0;
+            }
+        }
+
+        // Step 6: Display maximum profit
+        System.out.printf("\nMaximum Profit = %.2f\n", maxProfit);
+
+        sc.close();
+    }
+}
+
+
+
