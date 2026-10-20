@@ -1,4 +1,5 @@
 import java.util.PriorityQueue;
+import java.util.Scanner;
 
 class Node implements Comparable<Node> {
     char ch;
@@ -10,8 +11,19 @@ class Node implements Comparable<Node> {
         this.freq = freq;
     }
 
+    Node(int freq, Node left, Node right) {
+        this.ch = '-';
+        this.freq = freq;
+        this.left = left;
+        this.right = right;
+    }
+
+    @Override
     public int compareTo(Node other) {
-        return this.freq - other.freq;
+        if (this.freq != other.freq)
+            return this.freq - other.freq;
+
+        return this.ch - other.ch;
     }
 }
 
@@ -23,6 +35,7 @@ public class HuffmanEncoding {
 
         if (root.left == null && root.right == null) {
             System.out.println(root.ch + " : " + code);
+            return;
         }
 
         printCodes(root.left, code + "0");
@@ -30,9 +43,21 @@ public class HuffmanEncoding {
     }
 
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
-        char[] characters = {'A', 'B', 'C', 'D'};
-        int[] frequencies = {5, 9, 12, 13};
+        System.out.print("Enter number of characters: ");
+        int n = sc.nextInt();
+
+        char[] characters = new char[n];
+        int[] frequencies = new int[n];
+
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter character " + (i + 1) + ": ");
+            characters[i] = sc.next().charAt(0);
+
+            System.out.print("Enter frequency of " + characters[i] + ": ");
+            frequencies[i] = sc.nextInt();
+        }
 
         PriorityQueue<Node> pq = new PriorityQueue<>();
 
@@ -44,9 +69,11 @@ public class HuffmanEncoding {
             Node left = pq.poll();
             Node right = pq.poll();
 
-            Node merged = new Node('-', left.freq + right.freq);
-            merged.left = left;
-            merged.right = right;
+            Node merged = new Node(
+                    left.freq + right.freq,
+                    left,
+                    right
+            );
 
             pq.add(merged);
         }
@@ -55,5 +82,7 @@ public class HuffmanEncoding {
 
         System.out.println("Huffman Codes:");
         printCodes(root, "");
+
+        sc.close();
     }
 }
