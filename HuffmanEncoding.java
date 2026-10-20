@@ -86,3 +86,8 @@ public class HuffmanEncoding {
         sc.close();
     }
 }
+
+
+Time Complexity: \(O(n \log n)\)
+
+Space Complexity: \(O(n)\)
