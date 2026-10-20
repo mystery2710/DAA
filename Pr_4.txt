@@ -25,10 +25,8 @@ public class Knapsack {
         System.out.print("Enter capacity of knapsack: ");
         int capacity = sc.nextInt();
 
-        // DP table
         int[][] dp = new int[n + 1][capacity + 1];
 
-        // Fill DP table
         for (int i = 1; i <= n; i++) {
             for (int w = 1; w <= capacity; w++) {
 
@@ -43,10 +41,8 @@ public class Knapsack {
             }
         }
 
-        // Display maximum profit
         System.out.println("\nMaximum Profit = " + dp[n][capacity]);
 
-        // Find selected items
         int w = capacity;
 
         System.out.println("\nSelected Items:");
@@ -77,4 +73,3 @@ public class Knapsack {
         sc.close();
     }
 }
-
